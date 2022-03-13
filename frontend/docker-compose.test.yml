@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  gui-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    volumes:
+      - '.:/home/node/app'
+    entrypoint: ./.docker/entrypoint.test.sh
+    environment:
+      - NODE_ENV=test
+      - TZ=America/Sao_Paulo
+      - TEST=$TEST
+      - TOKEN=$TOKEN
+    user: root
+    ports:
+      - '3000:3000'

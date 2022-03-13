@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-variant-ligatures: normal;
+  font-variant-caps: normal;
+  font-variant-numeric: normal;
+  font-variant-east-asian: normal;
+  font-weight: 400;
+  font-stretch: normal;
+  font-size: 12px;
+  line-height: 14px;
+  overflow: auto;
+
+  // .content-wrapper {
+  //   padding-top: 50px;
+  //   margin-top: 0;
+  //   min-height: 100vh;
+
+  //   > section {
+  //     &.content {
+  //       min-height: calc(100% - 84px);
+  //       margin: 32px 40px;
+  //       padding: 0;
+  //     }
+  //   }
+  // }
+}
+form,
+input {
+  width: 100%;
+}
+
+input {
+  font-size: 12px;
+  line-height: 12px;
+  padding: 6px;
+}
+
+label {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+button {
+  &.btn {
+    padding: 8px 14px;
+
+    &.expand {
+      width: 100%;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.form-group {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+
+  label {
+    display: block;
+  }
+}
+
+.form-action {
+  margin-top: 30px;
+}
+
+.alert {
+  small {
+    color: #e74c3c;
+  }
+}
