@@ -1,7 +1,21 @@
-<main class="wrapper">
-  <div>
-    <section class="content">
-      <router-outlet></router-outlet>
-    </section>
-  </div>
+<main class="main">
+  <div class="logo">ADMIN</div>
+  <aside class="sidebar">
+    <ul>
+      <li>
+        <a [routerLink]="['/usuarios']" routerLinkActive="active">
+          <span class="item">USUARIOS</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/clientes']" routerLinkActive="active">
+          <span class="item">CLIENTES</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+  <nav class="navbar"></nav>
+  <section class="content">
+    <router-outlet></router-outlet>
+  </section>
 </main>

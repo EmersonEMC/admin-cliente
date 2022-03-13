@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 import { BaseResourceService } from './base-resource.service';
 
 interface IResourceMock {
-  _id?: string;
+  id?: string;
   description: string;
 }
 
@@ -35,7 +35,7 @@ describe('BaseResourceService<T>', () => {
 
   describe('getAll', () => {
     it('should get all resources', () => {
-      const expected = [{ _id: 'iapie757f7', description: 'foo test' }];
+      const expected = [{ id: 'iapie757f7', description: 'foo test' }];
       service.getAll().subscribe((resources) => {
         expect(resources).toEqual(expected);
       });
@@ -48,7 +48,7 @@ describe('BaseResourceService<T>', () => {
   describe('getById', () => {
     it('should get resource by id', () => {
       const id = 'o5el3e8ju9524escf';
-      const expected = { _id: id, description: 'Test' };
+      const expected = { id: id, description: 'Test' };
       service.getById(id).subscribe((resource) => {
         expect(resource).toEqual(expected);
       });
@@ -62,7 +62,7 @@ describe('BaseResourceService<T>', () => {
     it('should create resource', () => {
       const description = 'Resource test';
       const resource = { description };
-      const expected = { _id: 'o5el3e8ju9524escf', description };
+      const expected = { id: 'o5el3e8ju9524escf', description };
       service.create(resource).subscribe((newResource) => {
         expect(newResource).toEqual(expected);
       });
@@ -88,11 +88,11 @@ describe('BaseResourceService<T>', () => {
 
   describe('update', () => {
     it('should update resource', () => {
-      const resource = { _id: 'o5el3e8ju9524escf', description: 'updated!' };
+      const resource = { id: 'o5el3e8ju9524escf', description: 'updated!' };
       service.update(resource).subscribe((data) => {
         expect(data).toEqual(resource);
       });
-      const req = httpMock.expectOne(`${url}/${resource._id}`);
+      const req = httpMock.expectOne(`${url}/${resource.id}`);
       expect(req.request.method).toBe('PATCH');
       req.flush(resource);
     });

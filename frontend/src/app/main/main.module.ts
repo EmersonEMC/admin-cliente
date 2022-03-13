@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
 
 @NgModule({
   declarations: [MainComponent],
-  imports: [CommonModule, MainRoutingModule],
+  imports: [CommonModule, MainRoutingModule, RouterModule],
 })
 export class MainModule {}

@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClientesComponent } from './clientes.component';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: ClientesComponent,
-  },
-];
+import { cadastroRouting } from './cadastro/cadastro.routing';
+import { consultaRouting } from './consulta/consulta.routing';
 
+const routes: Routes = [...consultaRouting, ...cadastroRouting];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

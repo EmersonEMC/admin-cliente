@@ -29,7 +29,6 @@ describe('AuthInterceptor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        // HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
       ],
       providers: [

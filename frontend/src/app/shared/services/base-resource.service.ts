@@ -4,6 +4,9 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
+import { IDataTablesParameters } from '../interfaces/idatatables-parameters';
+import { IDatatablesResponse } from '../interfaces/idatatables-response';
+
 export abstract class BaseResourceService<T> {
   protected readonly http: HttpClient;
   constructor(
@@ -48,8 +51,8 @@ export abstract class BaseResourceService<T> {
     );
   }
 
-  update(resource: T & { _id: string }): Observable<T> {
-    const url = `${this.apiPath}/${resource._id}`;
+  update(resource: T & { id: string }): Observable<T> {
+    const url = `${this.apiPath}/${resource.id}`;
     return this.http.patch<T>(url, resource, this.options).pipe(
       map(() => resource),
       take(1),
@@ -70,6 +73,50 @@ export abstract class BaseResourceService<T> {
       );
     }
     return resources;
+  }
+
+  search(
+    dataTablesParameters: IDataTablesParameters,
+  ): Observable<IDatatablesResponse<T>> {
+    // const url = `${this.apiPath}/search`;
+    const url = `/assets/data/data.json`;
+    const queryParams = this.getDataTablesQueryParam(dataTablesParameters);
+    return this.http
+      .get<IDatatablesResponse<T>>(url, queryParams)
+      .pipe(take(1));
+  }
+
+  protected getDataTablesQueryParam(value: IDataTablesParameters): {
+    params: HttpParams | undefined;
+    headers: HttpHeaders | undefined;
+    observe: 'body';
+  } {
+    const options = _.clone(this.options) as {
+      headers: HttpHeaders;
+      params: HttpParams;
+    };
+
+    let params = options.params
+      .set('filter', JSON.stringify(value.filter))
+      .set('start', `${value.start}`)
+      .set('length', `${value.length}`);
+
+    if (value.order?.length > 0) {
+      params = this.getDataTablesOrder(value, params);
+    }
+
+    return { params, headers: options.headers, observe: 'body' };
+  }
+
+  protected getDataTablesOrder(
+    value: IDataTablesParameters,
+    params: HttpParams,
+  ): HttpParams {
+    const { column, dir } = value.order[0];
+    const order = value.columns[column].data;
+    return _.isNil(order)
+      ? params
+      : params.set('order', JSON.stringify({ column: order, dir }));
   }
 
   protected jsonDataToResource<R>(jsonData: unknown): R {

@@ -1,0 +1,113 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="form-group">
+        <label>Nome: </label>
+        <input type="text" formControlName="nome" required />
+        <div
+          *ngIf="nome?.invalid && (nome?.dirty || nome?.touched)"
+          class="alert"
+        >
+          <small *ngIf="nome?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="nome?.errors?.['nome']">
+            Campo ter que ser nome valido.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <div class="form-group">
+        <label>Data Nascimento: </label>
+        <input type="date" formControlName="dataNascimento" required />
+        <div
+          *ngIf="
+            dataNascimento?.invalid &&
+            (dataNascimento?.dirty || dataNascimento?.touched)
+          "
+          class="alert"
+        >
+          <small *ngIf="dataNascimento?.errors?.['required']"
+            >Campo e requiredo.
+          </small>
+          <small *ngIf="dataNascimento?.errors?.['dataNascimento']">
+            Campo ter que ser nome valido.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <div class="form-group">
+        <label>CPF: </label>
+        <input
+          type="text"
+          formControlName="cpf"
+          [imask]="{ mask: '000.000.000-00' }"
+          [unmask]="true"
+          required
+        />
+        <div *ngIf="cpf?.invalid && (cpf?.dirty || cpf?.touched)" class="alert">
+          <small *ngIf="cpf?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="cpf?.errors?.['minlength']">
+            Campo deve conter no minimo
+            {{ cpf?.errors?.minlength?.requiredLength }} caracteres.
+          </small>
+          <small *ngIf="cpf?.errors?.['cpf']">
+            Campo ter que ser nome valido.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <div class="form-group">
+        <label>RG: </label>
+        <input
+          type="text"
+          formControlName="rg"
+          [imask]="{ mask: '00.000.000-**' }"
+          [unmask]="true"
+          required
+        />
+        <div *ngIf="rg?.invalid && (rg?.dirty || rg?.touched)" class="alert">
+          <small *ngIf="rg?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="rg?.errors?.['rg']">
+            Campo ter que ser nome valido.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <div class="form-group">
+        <label>Telefone: </label>
+        <input
+          type="text"
+          formControlName="telefone"
+          [imask]="{ mask: '(00) 00000-0000' }"
+          [unmask]="true"
+          required
+        />
+        <div
+          *ngIf="telefone?.invalid && (telefone?.dirty || telefone?.touched)"
+          class="alert"
+        >
+          <small *ngIf="telefone?.errors?.['required']"
+            >Campo e requiredo.
+          </small>
+          <small *ngIf="telefone?.errors?.['telefone']">
+            Campo ter que ser nome valido.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-action">
+    <button class="btn" [disabled]="!formGroup.valid" type="submit">
+      SALVAR
+    </button>
+    <button class="btn" type="button" (click)="back()">VOLTAR</button>
+  </div>
+</form>

@@ -15,8 +15,8 @@ import { AuthService } from './../../shared/services/auth.service';
 })
 export class LoginComponent implements OnInit {
   formGroup!: FormGroup;
-  submitted = false;
   message!: string | undefined;
+
   constructor(
     private readonly _authService: AuthService,
     private readonly _router: Router,
@@ -43,9 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.submitted = true;
     if (this.formGroup.valid) {
-      this.submitted = false;
       const email = <string>this.formGroup.controls['email'].value;
       const senha = <string>this.formGroup.controls['senha'].value;
       this._authService.login(email, senha).subscribe(
@@ -54,13 +52,8 @@ export class LoginComponent implements OnInit {
             this._authService.successfulLogin(resp.body.data);
             this.isLogged();
           }
-
-          // setTimeout(() => {
-          //   this.submitted = false;
-          // }, 50);
         },
         (error: HttpErrorResponse) => {
-          this.submitted = false;
           const dataError = error.error as { message: string };
           if (dataError) {
             this.message = dataError.message ?? error.statusText;

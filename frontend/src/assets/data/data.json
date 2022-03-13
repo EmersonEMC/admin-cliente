@@ -1,0 +1,119 @@
+{
+  "message": null,
+  "data": [
+    {
+      "id": 1,
+      "nome": "Bridgette Soto",
+      "dataNascimento": "2022-01-18T11:16:11 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (850) 429-3209"
+    },
+    {
+      "id": 2,
+      "nome": "Erna Browning",
+      "dataNascimento": "2022-01-16T02:32:45 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (835) 518-2015"
+    },
+    {
+      "id": 3,
+      "nome": "Davis Randall",
+      "dataNascimento": "2022-03-12T12:59:10 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (898) 597-2765"
+    },
+    {
+      "id": 4,
+      "nome": "Bird Graves",
+      "dataNascimento": "2022-03-03T05:35:01 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (978) 412-3233"
+    },
+    {
+      "id": 5,
+      "nome": "Opal Conway",
+      "dataNascimento": "2022-01-10T07:08:31 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (889) 443-2093"
+    },
+    {
+      "id": 6,
+      "nome": "Ginger Shepard",
+      "dataNascimento": "2022-01-14T10:08:23 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (918) 519-2534"
+    },
+    {
+      "id": 7,
+      "nome": "Woodward Wiggins",
+      "dataNascimento": "2022-01-05T05:26:46 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (909) 404-3699"
+    },
+    {
+      "id": 8,
+      "nome": "Lenore Suarez",
+      "dataNascimento": "2022-02-15T05:21:12 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (930) 592-3929"
+    },
+    {
+      "id": 9,
+      "nome": "Sosa Mendoza",
+      "dataNascimento": "2022-02-19T11:41:19 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (988) 564-3104"
+    },
+    {
+      "id": 10,
+      "nome": "Roxie Booker",
+      "dataNascimento": "2022-01-22T01:13:34 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (857) 443-2903"
+    },
+    {
+      "id": 11,
+      "nome": "Mattie Barr",
+      "dataNascimento": "2022-01-13T03:54:11 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (996) 490-2759"
+    },
+    {
+      "id": 12,
+      "nome": "Lowery Salinas",
+      "dataNascimento": "2022-02-04T07:30:25 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (848) 404-2657"
+    },
+    {
+      "id": 13,
+      "nome": "Clemons Farrell",
+      "dataNascimento": "2022-02-26T12:04:52 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (967) 534-2842"
+    },
+    {
+      "id": 14,
+      "nome": "Mcdonald Armstrong",
+      "dataNascimento": "2022-01-08T12:59:42 +03:00",
+      "cpf": 31698278802,
+      "rg": "40100238x",
+      "telefone": "+55 (875) 518-3077"
+    }
+  ],
+  "recordsTotal": 14,
+  "recordsFiltered": 14
+}

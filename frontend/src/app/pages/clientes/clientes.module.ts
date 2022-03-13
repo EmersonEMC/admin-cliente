@@ -1,11 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DataTablesModule } from 'angular-datatables';
+import { IMaskModule } from 'angular-imask';
+import { RequiredModule } from 'src/app/shared/directives/required/required.module';
 
+import { CadastroComponent } from './cadastro/cadastro.component';
 import { ClientesRoutingModule } from './clientes-routing.module';
-import { ClientesComponent } from './clientes.component';
+import { ConsultaComponent } from './consulta/consulta.component';
 
 @NgModule({
-  declarations: [ClientesComponent],
-  imports: [CommonModule, ClientesRoutingModule],
+  declarations: [CadastroComponent, ConsultaComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ClientesRoutingModule,
+    DataTablesModule,
+    RequiredModule,
+    IMaskModule,
+  ],
 })
 export class ClientesModule {}
