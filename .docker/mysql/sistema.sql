@@ -30,12 +30,9 @@ CREATE TABLE IF NOT EXISTS `sistema`.`clients` (
     `cpf` VARCHAR(14) NULL DEFAULT NULL,
     `rg` VARCHAR(12) NULL DEFAULT NULL,
     `phone` VARCHAR(14) NULL DEFAULT NULL,
-    `users_id` INT(11) NOT NULL,
     `created_at` DATETIME NULL DEFAULT NULL,
     `updated_at` DATETIME NULL DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    INDEX `fk_clients_users_idx` (`users_id` ASC),
-    CONSTRAINT `fk_clients_users` FOREIGN KEY (`users_id`) REFERENCES `sistema`.`users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    PRIMARY KEY (`id`)
   ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `sistema`.`address` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
