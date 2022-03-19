@@ -26,6 +26,7 @@
     "@auth0/angular-jwt": "^5.0.2",
     "angular-datatables": "^13.0.1",
     "angular-imask": "^6.4.2",
+    "angular-notifier": "^11.0.0",
     "crypto-js": "^4.1.1",
     "datatables.net": "^1.11.3",
     "datatables.net-dt": "^1.11.3",
