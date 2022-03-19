@@ -7,10 +7,13 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import * as IMask from 'imask';
 import { BaseDataTablesComponent } from 'src/app/shared/datatables/base-resource-datatables.component';
+import { SweetAlertResult } from 'sweetalert2';
 
 import { ClientesService } from '../clientes.service';
 import { Cliente } from '../entities/cliente.entity';
@@ -24,6 +27,9 @@ export class ConsultaComponent
   extends BaseDataTablesComponent<Cliente>
   implements AfterViewInit, OnInit, OnDestroy
 {
+  @ViewChild('deleteSwal')
+  public readonly deleteSwal!: SwalComponent;
+
   constructor(
     @Inject(LOCALE_ID) public locale: string,
     private readonly _clientesService: ClientesService,
@@ -111,10 +117,30 @@ export class ConsultaComponent
     this.dtTrigger.next(this.defaultOptions);
     this.renderer.listen('document', 'click', (event: PointerEvent) => {
       const target = event.target as HTMLElement;
-      if (target && target.hasAttribute('edit-client-id')) {
-        const id = target.getAttribute('edit-client-id') ?? 0;
-        void this.router.navigate([`/clientes/cadastro/editar/${id}`]);
+      if (target) {
+        if (target.hasAttribute('edit-client-id')) {
+          const id = target.getAttribute('edit-client-id') ?? 0;
+          void this.router.navigate([`/clientes/cadastro/editar/${id}`]);
+        }
+
+        if (target.hasAttribute('remove-client-id')) {
+          const id = target.getAttribute('remove-client-id') ?? 0;
+          this.deleteSwal.title = 'Atenção';
+          this.deleteSwal.text = `Deseja realmente deletar o cliente ${id}?`;
+
+          void this.deleteSwal.fire().then((value: SweetAlertResult) => {
+            if (value.isConfirmed) {
+              this.deleteClient(id);
+            }
+          });
+        }
       }
+    });
+  }
+
+  private deleteClient(id: string | number): void {
+    this._clientesService.delete(id).subscribe(() => {
+      this.dtTrigger.next(this.dtOptions);
     });
   }
 

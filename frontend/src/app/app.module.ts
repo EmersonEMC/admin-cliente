@@ -5,6 +5,7 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NotifierModule } from 'angular-notifier';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +27,7 @@ registerLocaleData(ptBr);
     FormsModule,
     ReactiveFormsModule,
     NotifierModule.withConfig(customNotifierOptions),
+    SweetAlert2Module.forRoot(),
   ],
   providers: [
     AuthGuard,

@@ -51,7 +51,7 @@ export abstract class BaseResourceService<T> {
     );
   }
 
-  update(resource: T, id: number): Observable<T> {
+  update(resource: T, id: string | number): Observable<T> {
     const url = `${this.apiPath}/${id}`;
     return this.http.patch<T>(url, resource, this.options).pipe(
       map(() => resource),
@@ -59,7 +59,7 @@ export abstract class BaseResourceService<T> {
     );
   }
 
-  delete(id: string): Observable<unknown> {
+  delete(id: string | number): Observable<unknown> {
     const url = `${this.apiPath}/${id}`;
     return this.http.delete(url, this.options).pipe(take(1));
   }

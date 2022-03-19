@@ -85,11 +85,8 @@ export class CadastroComponent implements OnInit {
       if (!this.idCliente) {
         this._clientesService
           .create(this.formGroup.value as Cliente)
-          .subscribe((value: Cliente) => {
-            if (value.id) {
-              const url = this.router.url + '/editar';
-              void this.router?.navigate([url, value.id]);
-            }
+          .subscribe(() => {
+            void this.router?.navigate(['/clientes']);
           });
       } else {
         this._clientesService
