@@ -2,7 +2,6 @@ import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
 
-import { IDataTablesParameters } from '../interfaces/idatatables-parameters';
 import { IDatatablesResponse } from '../interfaces/idatatables-response';
 import { BaseResourceService } from '../services/base-resource.service';
 import { DatatablesConfig } from './datatables-config';
@@ -39,20 +38,20 @@ export abstract class BaseDataTablesComponent<T> implements OnInit, OnDestroy {
     dataTablesParameters: unknown,
     callback: unknown,
   ): void {
-    const parameters = dataTablesParameters as IDataTablesParameters;
+    const parameters = dataTablesParameters as DataTables.AjaxDataRequest;
     const fn = callback as () => void;
     this.getValues(parameters, fn);
   }
 
   protected getValues(
-    dataTablesParameters: IDataTablesParameters,
+    dataTablesParameters: DataTables.AjaxDataRequest,
     callback: (dt: DataTables.AjaxData) => void,
   ): void {
     this.search(dataTablesParameters, callback);
   }
 
   private search(
-    dataTablesParameters: IDataTablesParameters,
+    dataTablesParameters: DataTables.AjaxDataRequest,
     callback: (dt: DataTables.AjaxData) => void,
   ): void {
     this._resourceService.search(dataTablesParameters).subscribe(

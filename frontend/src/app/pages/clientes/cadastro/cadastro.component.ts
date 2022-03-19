@@ -14,7 +14,7 @@ import { NavigationService } from './../../../shared/services/navigation.service
 })
 export class CadastroComponent implements OnInit {
   formGroup!: FormGroup;
-  private id!: number;
+  private idCliente!: number;
 
   constructor(
     private readonly _clientesService: ClientesService,
@@ -22,28 +22,31 @@ export class CadastroComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
   ) {
-    this.id = this.route.snapshot.params?.id
+    this.idCliente = this.route.snapshot.params?.id
       ? Number(this.route.snapshot.params.id)
       : 0;
   }
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      nome: new FormControl('', [Validators.required]),
-      dataNascimento: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      birthday: new FormControl('', [Validators.required]),
       cpf: new FormControl('', [Validators.required, Validators.minLength(11)]),
       rg: new FormControl('', [Validators.required, Validators.maxLength(9)]),
-      telefone: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
     });
     this.loadOnEdit();
   }
 
-  get nome() {
-    return this.formGroup.get('nome');
+  get name() {
+    return this.formGroup.get('name');
   }
 
-  get dataNascimento() {
-    return this.formGroup.get('dataNascimento');
+  get birthday() {
+    return this.formGroup.get('birthday');
   }
 
   get cpf() {
@@ -54,13 +57,13 @@ export class CadastroComponent implements OnInit {
     return this.formGroup.get('rg');
   }
 
-  get telefone() {
-    return this.formGroup.get('telefone');
+  get phone() {
+    return this.formGroup.get('phone');
   }
 
   private loadOnEdit(): void {
-    if (this.id > 0) {
-      this._clientesService.getById(this.id).subscribe(
+    if (this.idCliente > 0) {
+      this._clientesService.getById(this.idCliente).subscribe(
         (value: Cliente) => {
           this.formSetValues(value);
         },
@@ -79,7 +82,7 @@ export class CadastroComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      if (!this.id) {
+      if (!this.idCliente) {
         this._clientesService
           .create(this.formGroup.value as Cliente)
           .subscribe((value: Cliente) => {
@@ -90,7 +93,7 @@ export class CadastroComponent implements OnInit {
           });
       } else {
         this._clientesService
-          .update(this.formGroup.value as Cliente)
+          .update(this.formGroup.value as Cliente, this.idCliente)
           .subscribe();
       }
     }

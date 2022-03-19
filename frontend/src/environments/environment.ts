@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:3000/api/v1',
+  baseUrl: 'http://localhost:8000',
   CRYPTOJS_SECRET:
     'jFPRKgpx9tYGd1Fv4UQQDzIW6o6q1hTct3m53Y0OqmvQK30adZ8paN2WpSRTFC',
 };

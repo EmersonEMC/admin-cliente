@@ -21,17 +21,17 @@
 
         <div class="form-group">
           <label>Senha: </label>
-          <input type="text" formControlName="senha" required />
+          <input type="text" formControlName="password" required />
           <div
-            *ngIf="senha?.invalid && (senha?.dirty || senha?.touched)"
+            *ngIf="password?.invalid && (password?.dirty || password?.touched)"
             class="alert"
           >
-            <small *ngIf="senha?.errors?.['required']"
+            <small *ngIf="password?.errors?.['required']"
               >Campo e requerido.
             </small>
-            <small *ngIf="senha?.errors?.['minlength']">
+            <small *ngIf="password?.errors?.['minlength']">
               Campo deve conter no minimo
-              {{ senha?.errors?.minlength?.requiredLength }} caracteres.
+              {{ password?.errors?.minlength?.requiredLength }} caracteres.
             </small>
           </div>
         </div>

@@ -3,14 +3,14 @@
     <div class="col-sm-12 col-md-12 col-lg-12">
       <div class="form-group">
         <label>Nome: </label>
-        <input type="text" formControlName="nome" required />
+        <input type="text" formControlName="name" required />
         <div
-          *ngIf="nome?.invalid && (nome?.dirty || nome?.touched)"
+          *ngIf="name?.invalid && (name?.dirty || name?.touched)"
           class="alert"
         >
-          <small *ngIf="nome?.errors?.['required']">Campo e requiredo. </small>
-          <small *ngIf="nome?.errors?.['nome']">
-            Campo ter que ser nome valido.
+          <small *ngIf="name?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="name?.errors?.['name']">
+            Campo ter que ser name valido.
           </small>
         </div>
       </div>
@@ -19,19 +19,16 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
       <div class="form-group">
         <label>Data Nascimento: </label>
-        <input type="date" formControlName="dataNascimento" required />
+        <input type="date" formControlName="birthday" required />
         <div
-          *ngIf="
-            dataNascimento?.invalid &&
-            (dataNascimento?.dirty || dataNascimento?.touched)
-          "
+          *ngIf="birthday?.invalid && (birthday?.dirty || birthday?.touched)"
           class="alert"
         >
-          <small *ngIf="dataNascimento?.errors?.['required']"
+          <small *ngIf="birthday?.errors?.['required']"
             >Campo e requiredo.
           </small>
-          <small *ngIf="dataNascimento?.errors?.['dataNascimento']">
-            Campo ter que ser nome valido.
+          <small *ngIf="birthday?.errors?.['birthday']">
+            Campo ter que ser name valido.
           </small>
         </div>
       </div>
@@ -54,7 +51,7 @@
             {{ cpf?.errors?.minlength?.requiredLength }} caracteres.
           </small>
           <small *ngIf="cpf?.errors?.['cpf']">
-            Campo ter que ser nome valido.
+            Campo ter que ser name valido.
           </small>
         </div>
       </div>
@@ -73,7 +70,7 @@
         <div *ngIf="rg?.invalid && (rg?.dirty || rg?.touched)" class="alert">
           <small *ngIf="rg?.errors?.['required']">Campo e requiredo. </small>
           <small *ngIf="rg?.errors?.['rg']">
-            Campo ter que ser nome valido.
+            Campo ter que ser name valido.
           </small>
         </div>
       </div>
@@ -84,20 +81,22 @@
         <label>Telefone: </label>
         <input
           type="text"
-          formControlName="telefone"
+          formControlName="phone"
           [imask]="{ mask: '(00) 00000-0000' }"
           [unmask]="true"
           required
         />
         <div
-          *ngIf="telefone?.invalid && (telefone?.dirty || telefone?.touched)"
+          *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)"
           class="alert"
         >
-          <small *ngIf="telefone?.errors?.['required']"
-            >Campo e requiredo.
+          <small *ngIf="phone?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="phone?.errors?.['minlength']">
+            Campo deve conter no minimo
+            {{ phone?.errors?.minlength?.requiredLength }} caracteres.
           </small>
-          <small *ngIf="telefone?.errors?.['telefone']">
-            Campo ter que ser nome valido.
+          <small *ngIf="phone?.errors?.['phone']">
+            Campo ter que ser name valido.
           </small>
         </div>
       </div>

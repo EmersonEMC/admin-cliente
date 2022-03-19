@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      senha: new FormControl('', [
+      password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
       ]),
@@ -38,15 +38,15 @@ export class LoginComponent implements OnInit {
     return this.formGroup.get('email');
   }
 
-  get senha() {
-    return this.formGroup.get('senha');
+  get password() {
+    return this.formGroup.get('password');
   }
 
   onSubmit(): void {
     if (this.formGroup.valid) {
       const email = <string>this.formGroup.controls['email'].value;
-      const senha = <string>this.formGroup.controls['senha'].value;
-      this._authService.login(email, senha).subscribe(
+      const password = <string>this.formGroup.controls['password'].value;
+      this._authService.login(email, password).subscribe(
         (resp: HttpResponse<IData<IUserLoggedLogin>>) => {
           if (resp.status === 200 && !!resp.body) {
             this._authService.successfulLogin(resp.body.data);

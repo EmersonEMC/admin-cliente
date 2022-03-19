@@ -38,12 +38,12 @@ export class AuthService {
 
   login(
     email: string,
-    senha: string,
+    password: string,
   ): Observable<HttpResponse<IData<IUserLoggedLogin>>> {
     return this.http
       .post<IData<IUserLoggedLogin>>(
-        `${environment.baseUrl}/auth/login`,
-        { email, senha },
+        `${environment.baseUrl}/login`,
+        { email, password },
         {
           observe: 'response',
           responseType: 'json',

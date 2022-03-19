@@ -51,8 +51,8 @@ export abstract class BaseResourceService<T> {
     );
   }
 
-  update(resource: T & { id: string }): Observable<T> {
-    const url = `${this.apiPath}/${resource.id}`;
+  update(resource: T, id: number): Observable<T> {
+    const url = `${this.apiPath}/${id}`;
     return this.http.patch<T>(url, resource, this.options).pipe(
       map(() => resource),
       take(1),
@@ -78,8 +78,7 @@ export abstract class BaseResourceService<T> {
   search(
     dataTablesParameters: IDataTablesParameters,
   ): Observable<IDatatablesResponse<T>> {
-    // const url = `${this.apiPath}/search`;
-    const url = `/assets/data/data.json`;
+    const url = `${this.apiPath}/search`;
     const queryParams = this.getDataTablesQueryParam(dataTablesParameters);
     return this.http
       .get<IDatatablesResponse<T>>(url, queryParams)
@@ -97,7 +96,6 @@ export abstract class BaseResourceService<T> {
     };
 
     let params = options.params
-      .set('filter', JSON.stringify(value.filter))
       .set('start', `${value.start}`)
       .set('length', `${value.length}`);
 

@@ -1,11 +1,15 @@
+import { DatePipe } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  Inject,
+  LOCALE_ID,
   OnDestroy,
   OnInit,
   Renderer2,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import * as IMask from 'imask';
 import { BaseDataTablesComponent } from 'src/app/shared/datatables/base-resource-datatables.component';
 
 import { ClientesService } from '../clientes.service';
@@ -21,6 +25,7 @@ export class ConsultaComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
   constructor(
+    @Inject(LOCALE_ID) public locale: string,
     private readonly _clientesService: ClientesService,
     private renderer: Renderer2,
     private router: Router,
@@ -32,7 +37,23 @@ export class ConsultaComponent
     super.ngOnInit();
   }
 
+  private get _cpfMask(): IMask.MaskedPattern<string> {
+    const mask = IMask.createMask({
+      mask: '000.000.000-00',
+    });
+    return mask;
+  }
+
+  private get _phoneMask(): IMask.MaskedPattern<string> {
+    const mask = IMask.createMask({
+      mask: '(00) 00000-0000',
+    });
+    return mask;
+  }
+
   builderTable(): DataTables.ColumnSettings[] | undefined {
+    const maskedCpf = this._cpfMask;
+    const maskedPhone = this._phoneMask;
     return [
       {
         title: 'ID',
@@ -40,15 +61,21 @@ export class ConsultaComponent
       },
       {
         title: 'Nome',
-        data: 'nome',
+        data: 'name',
       },
       {
         title: 'Data Nascimento',
-        data: 'dataNascimento',
+        data: 'birthday',
+        render: (birthday: string) => {
+          return new DatePipe(this.locale).transform(birthday, 'dd/MM/yyyy');
+        },
       },
       {
         title: 'CPF',
         data: 'cpf',
+        render: (cpf: string) => {
+          return maskedCpf.resolve(String(cpf));
+        },
       },
       {
         title: 'RG',
@@ -56,14 +83,18 @@ export class ConsultaComponent
       },
       {
         title: 'Telefone',
-        data: 'telefone',
+        data: 'phone',
+        render: (phone: string) => {
+          return maskedPhone.resolve(String(phone));
+        },
       },
       {
         title: 'Action',
+        orderable: false,
         render: function (data: unknown, type: unknown, full: Cliente) {
           return `
-          <button class="btn action" edit-client-id="${full.id} ">EDITAR</button>
-          <button class="btn action" remove-client-id="${full.id} ">EXCLUIR</button>
+          <button class="btn action" edit-client-id="${full.id}">EDITAR</button>
+          <button class="btn action" remove-client-id="${full.id}">EXCLUIR</button>
           `;
         },
       },
