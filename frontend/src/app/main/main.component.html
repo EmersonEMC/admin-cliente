@@ -1,0 +1,30 @@
+<app-loader></app-loader>
+<main class="main">
+  <aside class="sidebar">
+    <div class="logo">ADMIN</div>
+    <ul>
+      <li>
+        <a [routerLink]="['/dashboard']" routerLinkActive="active">
+          <span class="item"><fa-icon [icon]="faHome"></fa-icon> DAHBOARD</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/clientes']" routerLinkActive="active">
+          <span class="item"
+            ><fa-icon [icon]="faUsers"></fa-icon> CLIENTES</span
+          >
+        </a>
+      </li>
+    </ul>
+  </aside>
+  <nav class="navbar">
+    <div class="navbar__actions">
+      <button class="btn" (click)="logout()">
+        <fa-icon [icon]="faPowerOff"></fa-icon> SAIR
+      </button>
+    </div>
+  </nav>
+  <section class="content">
+    <router-outlet></router-outlet>
+  </section>
+</main>

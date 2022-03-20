@@ -1,0 +1,50 @@
+<div class="login">
+  <div class="login__container">
+    <div class="login__container--header">LOGIN</div>
+    <div class="login__container--form">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Email: </label>
+          <input type="email" formControlName="email" required />
+          <div
+            *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+            class="alert"
+          >
+            <small *ngIf="email?.errors?.['required']"
+              >Campo requerido .
+            </small>
+            <small *ngIf="email?.errors?.['email']">
+              Campo ter que ser email valido.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Senha: </label>
+          <input type="text" formControlName="password" required />
+          <div
+            *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+            class="alert"
+          >
+            <small *ngIf="password?.errors?.['required']"
+              >Campo e requerido.
+            </small>
+            <small *ngIf="password?.errors?.['minlength']">
+              Campo deve conter no minimo
+              {{ password?.errors?.minlength?.requiredLength }} caracteres.
+            </small>
+          </div>
+        </div>
+        <div class="form-action">
+          <button
+            class="btn expand"
+            [disabled]="!formGroup.valid"
+            type="submit"
+          >
+            ENTRAR
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

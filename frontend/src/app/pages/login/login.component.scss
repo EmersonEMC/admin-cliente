@@ -1,0 +1,37 @@
+%display {
+  display: flex;
+  width: 100%;
+}
+
+%align-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.login {
+  left: 50%;
+  top: 35%;
+  position: absolute;
+  transform: translate(-50%, -35%);
+  min-width: 300px;
+  min-height: 200px;
+  box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%),
+    0 2px 4px -1px rgb(0 0 0 / 30%);
+
+  .login__container {
+    padding: 20px;
+
+    .login__container--header {
+      @extend %display;
+      @extend %align-center;
+      font-size: 25px;
+      font-weight: 600;
+      line-height: 25px;
+    }
+
+    .login__container--form {
+      @extend %display;
+      @extend %align-center;
+    }
+  }
+}

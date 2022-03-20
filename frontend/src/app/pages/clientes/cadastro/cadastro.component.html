@@ -1,0 +1,255 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="form-group">
+        <label>Nome: </label>
+        <input type="text" formControlName="name" required />
+        <div
+          *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+          class="alert"
+        >
+          <small *ngIf="name?.errors?.['required']">Campo requerido . </small>
+          <small *ngIf="name?.errors?.['name']">
+            Campo ter que ser name valido.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <div class="form-group">
+        <label>Data Nascimento: </label>
+        <input type="date" formControlName="birthday" required />
+        <div
+          *ngIf="birthday?.invalid && (birthday?.dirty || birthday?.touched)"
+          class="alert"
+        >
+          <small *ngIf="birthday?.errors?.['required']"
+            >Campo requerido .
+          </small>
+          <small *ngIf="birthday?.errors?.['birthday']">
+            Campo ter que ser name valido.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <div class="form-group">
+        <label>CPF: </label>
+        <input
+          type="text"
+          formControlName="cpf"
+          [imask]="{ mask: '000.000.000-00' }"
+          [unmask]="true"
+          required
+        />
+        <div *ngIf="cpf?.invalid && (cpf?.dirty || cpf?.touched)" class="alert">
+          <small *ngIf="cpf?.errors?.['required']">Campo requerido . </small>
+          <small *ngIf="cpf?.errors?.['minlength']">
+            Campo deve conter no minimo
+            {{ cpf?.errors?.minlength?.requiredLength }} caracteres.
+          </small>
+          <small *ngIf="cpf?.errors?.['cpfNotValid']">
+            Campo CPF tem que ser valido
+          </small>
+          <small *ngIf="cpf?.errors?.['cpf']">
+            Campo ter que ser name valido.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <div class="form-group">
+        <label>RG: </label>
+        <input
+          type="text"
+          formControlName="rg"
+          [imask]="{ mask: '00.000.000-**' }"
+          [unmask]="true"
+          required
+        />
+        <div *ngIf="rg?.invalid && (rg?.dirty || rg?.touched)" class="alert">
+          <small *ngIf="rg?.errors?.['required']">Campo requerido . </small>
+          <small *ngIf="rg?.errors?.['rg']">
+            Campo ter que ser name valido.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+      <div class="form-group">
+        <label>Telefone: </label>
+        <input
+          type="text"
+          formControlName="phone"
+          [imask]="{ mask: '(00) 00000-0000' }"
+          [unmask]="true"
+          required
+        />
+        <div
+          *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)"
+          class="alert"
+        >
+          <small *ngIf="phone?.errors?.['required']">Campo requerido . </small>
+          <small *ngIf="phone?.errors?.['minlength']">
+            Campo deve conter no minimo
+            {{ phone?.errors?.minlength?.requiredLength }} caracteres.
+          </small>
+          <small *ngIf="phone?.errors?.['phone']">
+            Campo ter que ser name valido.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row actions__add">
+    <div class="col-sm-12">
+      <h4>Endereço(s)</h4>
+    </div>
+    <div class="col-sm-12">
+      <button
+        class="btn btn__small"
+        title="Adicionar Endereco"
+        (click)="addAdress()"
+      >
+        ADD
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <hr />
+
+  <ng-container formArrayName="addresses">
+    <ng-container
+      *ngFor="
+        let addressForm of addresses.controls;
+        let i = index;
+        trackBy: trackByMethod
+      "
+    >
+      <div class="row" [formGroupName]="i">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label>Endereço {{ i + 1 }}</label>
+          </div>
+        </div>
+        <div class="col-sm-10 col-md-10 col-lg-11">
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="form-group">
+                <label>Descricao: </label>
+                <input type="text" formControlName="description" required />
+                <div
+                  *ngIf="
+                    getFormaArray(i, 'description')?.invalid &&
+                    (getFormaArray(i, 'description')?.dirty ||
+                      getFormaArray(i, 'description')?.touched)
+                  "
+                  class="alert"
+                >
+                  <small
+                    *ngIf="getFormaArray(i, 'description')?.errors?.['required']"
+                    >Campo requerido .
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-2">
+              <div class="form-group">
+                <label>Numero: </label>
+                <input type="text" formControlName="number" required />
+                <div
+                  *ngIf="
+                    getFormaArray(i, 'number')?.invalid &&
+                    (getFormaArray(i, 'number')?.dirty ||
+                      getFormaArray(i, 'number')?.touched)
+                  "
+                  class="alert"
+                >
+                  <small
+                    *ngIf="getFormaArray(i, 'number')?.errors?.['required']"
+                    >Campo requerido .
+                  </small>
+                  <small
+                    *ngIf="getFormaArray(i, 'number')?.errors?.['maxlength']"
+                    >Campo deve conter maximo 5 caracteres.
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>Cidade: </label>
+                <input type="text" formControlName="city" required />
+                <div
+                  *ngIf="
+                    getFormaArray(i, 'city')?.invalid &&
+                    (getFormaArray(i, 'city')?.dirty ||
+                      getFormaArray(i, 'city')?.touched)
+                  "
+                  class="alert"
+                >
+                  <small *ngIf="getFormaArray(i, 'city')?.errors?.['required']"
+                    >Campo requerido .
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>Estado: </label>
+                <input type="text" formControlName="state" required />
+                <div
+                  *ngIf="
+                    getFormaArray(i, 'state')?.invalid &&
+                    (getFormaArray(i, 'state')?.dirty ||
+                      getFormaArray(i, 'state')?.touched)
+                  "
+                  class="alert"
+                >
+                  <small *ngIf="getFormaArray(i, 'state')?.errors?.['required']"
+                    >Campo requerido .
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-sm-2 col-md-2 col-lg-1 d-flex justify-content-center flex-direction-column align-items-center"
+        >
+          <button
+            class="btn"
+            title="Remover Endereco"
+            (click)="deleteAdress(i)"
+          >
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <hr />
+    </ng-container>
+  </ng-container>
+
+  <div class="row empty__addresses" *ngIf="addresses.controls.length <= 0">
+    <div
+      class="col-sm-12 d-flex justify-content-center flex-direction-column align-items-center"
+    >
+      Nenhum endereço foi adicionado
+    </div>
+    <div class="col-sm-12">
+      <hr />
+    </div>
+  </div>
+
+  <div class="form-action">
+    <button class="btn" [disabled]="!formGroup.valid" type="submit">
+      SALVAR
+    </button>
+    <button class="btn" type="button" (click)="back()">VOLTAR</button>
+  </div>
+</form>
