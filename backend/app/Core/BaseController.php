@@ -2,7 +2,7 @@
 
 namespace  App\Core;
 
-use \App\Helpers\JsonFormatter;
+use App\Helpers\JsonFormatter;
 
 class BaseController extends JsonFormatter
 {

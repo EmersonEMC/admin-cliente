@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use \App\Models\Address;
-use \InvalidArgumentException;
-use \Resource;
+use App\Models\Address;
+use InvalidArgumentException;
+use Resource;
 
 class Client  extends Address implements Resource
 {

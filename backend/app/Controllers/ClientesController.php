@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use \App\Core\BaseController;
-use \App\Helpers\Validator;
-use \App\Models\Client;
-use \App\Models\Address;
+use App\Core\BaseController;
+use App\Helpers\Validator;
+use App\Models\Client;
+use App\Models\Address;
 
 class ClientesController extends BaseController
 {

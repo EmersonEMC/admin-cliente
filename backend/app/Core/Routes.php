@@ -1,7 +1,7 @@
 <?php
 
-use \App\Helpers\Helper;
-use \App\Helpers\JsonFormatter;
+use App\Helpers\Helper;
+use App\Helpers\JsonFormatter;
 
 $router = new \App\Core\Router();
 $router->setNamespace('\App\Controllers');

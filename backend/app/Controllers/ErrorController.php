@@ -7,7 +7,7 @@ class ErrorController
 
     public function notFound()
     {
-        header('HTTP/1.0 404 Not Found');
+        header('HTTP/1.1 404 Not Found');
         $response['message'] = 'Not Found';
         $response['data'] = null;
 

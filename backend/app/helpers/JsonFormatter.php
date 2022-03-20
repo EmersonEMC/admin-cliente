@@ -6,7 +6,7 @@ class JsonFormatter
 {
     protected function toJSONPaginate($message = null, $data = null, $key)
     {
-        header('HTTP/1.0 200 OK');
+        header('HTTP/1.1 200 OK');
         $response['message'] = $message;
         $response['data'] = $data[$key];
         $response['recordsFiltered'] = $data['count'];
@@ -25,25 +25,25 @@ class JsonFormatter
 
     protected function toJSON($message = null, $data = null)
     {
-        header('HTTP/1.0 200 OK');
+        header('HTTP/1.1 200 OK');
         return $this->toDataJson($message, $data);
     }
 
     protected function toJSON200($message = null, $data = null)
     {
-        header('HTTP/1.0 200 OK');
+        header('HTTP/1.1 200 OK');
         return $this->toDataJson($message, $data);
     }
 
     function toJSON401($message = null, $data = null)
     {
-        header('HTTP/1.0 401 Unauthorized');
+        header('HTTP/1.1 401 Unauthorized');
         return $this->toDataJson($message, $data);
     }
 
     function toJSON400($message = null, $data = null)
     {
-        header('HTTP/1.0 400 Bad Request');
+        header('HTTP/1.1 400 Bad Request');
         return $this->toDataJson($message, $data);
     }
 }

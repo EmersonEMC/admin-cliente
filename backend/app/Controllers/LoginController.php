@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Helpers\Helper;
 use App\Helpers\JsonFormatter;
-use \App\Models\User;
+use App\Models\User;
 
 class LoginController extends JsonFormatter
 {

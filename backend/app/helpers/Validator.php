@@ -18,7 +18,7 @@ class Validator
     private static function errorValidation($message, $data = null)
     {
 
-        header('HTTP/1.0 400 Bad Request');
+        header('HTTP/1.1 400 Bad Request');
         $response['message'] = $message;
         $response['data'] = $data;
 
