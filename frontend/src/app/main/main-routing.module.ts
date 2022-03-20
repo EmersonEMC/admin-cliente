@@ -19,10 +19,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'usuarios',
+        path: 'dashboard',
         loadChildren: () =>
-          import('../pages/usuarios/usuarios.module').then(
-            (m) => m.UsuariosModule,
+          import('../pages/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule,
           ),
       },
       { path: '', redirectTo: 'clientes', pathMatch: 'full' },

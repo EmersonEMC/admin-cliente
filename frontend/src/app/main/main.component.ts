@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from './../shared/services/auth.service';
 
-import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPowerOff, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-main',
@@ -11,6 +11,8 @@ import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
 })
 export class MainComponent implements OnInit {
   faPowerOff = faPowerOff;
+  faHome = faHome;
+  faUsers = faUsers;
 
   constructor(private readonly _authService: AuthService) {
     /** */

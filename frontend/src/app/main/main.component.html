@@ -4,13 +4,15 @@
     <div class="logo">ADMIN</div>
     <ul>
       <li>
-        <a [routerLink]="['/usuarios']" routerLinkActive="active">
-          <span class="item">USUARIOS</span>
+        <a [routerLink]="['/dashboard']" routerLinkActive="active">
+          <span class="item"><fa-icon [icon]="faHome"></fa-icon> DAHBOARD</span>
         </a>
       </li>
       <li>
         <a [routerLink]="['/clientes']" routerLinkActive="active">
-          <span class="item">CLIENTES</span>
+          <span class="item"
+            ><fa-icon [icon]="faUsers"></fa-icon> CLIENTES</span
+          >
         </a>
       </li>
     </ul>
