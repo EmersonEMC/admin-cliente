@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { cpfValidator } from 'src/app/shared/components/form/forms-validations';
 
 import { ClientesService } from '../clientes.service';
@@ -17,6 +18,8 @@ import { NavigationService } from './../../../shared/services/navigation.service
 export class CadastroComponent implements OnInit {
   formGroup!: FormGroup;
   private idCliente!: number;
+  faPlus = faPlus;
+  faTrash = faTrash;
 
   constructor(
     private readonly _clientesService: ClientesService,

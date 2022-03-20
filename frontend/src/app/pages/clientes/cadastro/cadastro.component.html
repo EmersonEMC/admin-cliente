@@ -106,52 +106,85 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row actions__add">
     <div class="col-sm-12">
-      <button class="btn" (click)="addAdress()">Add</button>
+      <h4>Endereço(s)</h4>
+    </div>
+    <div class="col-sm-12">
+      <button
+        class="btn btn__small"
+        title="Adicionar Endereco"
+        (click)="addAdress()"
+      >
+        ADD
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
     </div>
   </div>
+  <hr />
 
   <ng-container formArrayName="addresses">
     <ng-container *ngFor="let addressForm of addresses.controls; let i = index">
       <div class="row" [formGroupName]="i">
-        <div class="col-sm-12">
-          <div class="col-sm-9">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label>Endereço {{ i + 1 }}</label>
+          </div>
+        </div>
+        <div class="col-sm-10 col-md-10 col-lg-11">
+          <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
               <div class="form-group">
                 <label>Descricao: </label>
                 <input type="text" formControlName="description" required />
               </div>
             </div>
-            <div class="col-sm-2 col-md-2 col-lg-2">
+            <div class="col-sm-12 col-md-4 col-lg-2">
               <div class="form-group">
                 <label>Numero: </label>
                 <input type="text" formControlName="number" required />
               </div>
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
+            <div class="col-sm-12 col-md-4 col-lg-4">
               <div class="form-group">
                 <label>Cidade: </label>
                 <input type="text" formControlName="city" required />
               </div>
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
+            <div class="col-sm-12 col-md-4 col-lg-4">
               <div class="form-group">
                 <label>Estado: </label>
                 <input type="text" formControlName="state" required />
               </div>
             </div>
           </div>
-
-          <div class="col-sm-3">
-            <div class="col-sm-12">
-              <button class="btn" (click)="deleteAdress(i)">Remove</button>
-            </div>
-          </div>
+        </div>
+        <div
+          class="col-sm-2 col-md-2 col-lg-1 d-flex justify-content-center flex-direction-column align-items-center"
+        >
+          <button
+            class="btn"
+            title="Remover Endereco"
+            (click)="deleteAdress(i)"
+          >
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
         </div>
       </div>
+      <hr />
     </ng-container>
   </ng-container>
+
+  <div class="row empty__addresses" *ngIf="addresses.controls.length <= 0">
+    <div
+      class="col-sm-12 d-flex justify-content-center flex-direction-column align-items-center"
+    >
+      Nenhum endereço foi adicionado
+    </div>
+    <div class="col-sm-12">
+      <hr />
+    </div>
+  </div>
 
   <div class="form-action">
     <button class="btn" [disabled]="!formGroup.valid" type="submit">
