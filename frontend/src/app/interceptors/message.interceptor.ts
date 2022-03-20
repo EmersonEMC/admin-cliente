@@ -14,6 +14,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 
 import { AuthService } from '../shared/services/auth.service';
+import { LoaderService } from '../shared/services/loader.service';
 
 interface IHttpErros {
   status: string;
@@ -34,7 +35,7 @@ export class MessageInterceptor implements HttpInterceptor {
   constructor(
     private notify: NotifierService,
     private readonly authServ: AuthService,
-    // public loaderService: LoaderService,
+    public loaderService: LoaderService,
     private router: Router,
   ) {}
 
@@ -64,11 +65,11 @@ export class MessageInterceptor implements HttpInterceptor {
   }
 
   private showLoader(): void {
-    // this.loaderService.show();
+    this.loaderService.show();
   }
 
   private hideLoader(): void {
-    // this.loaderService.hide();
+    this.loaderService.hide();
   }
 
   private checkError(

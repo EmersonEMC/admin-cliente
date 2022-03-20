@@ -38,6 +38,7 @@
     "datatables.net-dt": "^1.11.3",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
+    "ngx-loading": "^13.0.0",
     "rxjs": "~7.5.0",
     "sweetalert2": "^11.4.6",
     "tslib": "^2.3.0",
