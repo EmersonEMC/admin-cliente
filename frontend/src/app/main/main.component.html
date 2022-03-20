@@ -14,7 +14,11 @@
       </li>
     </ul>
   </aside>
-  <nav class="navbar"></nav>
+  <nav class="navbar">
+    <div class="navbar__actions">
+      <button class="btn" (click)="logout()">SAIR</button>
+    </div>
+  </nav>
   <section class="content">
     <router-outlet></router-outlet>
   </section>

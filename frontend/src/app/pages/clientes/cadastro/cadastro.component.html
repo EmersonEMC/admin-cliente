@@ -50,6 +50,9 @@
             Campo deve conter no minimo
             {{ cpf?.errors?.minlength?.requiredLength }} caracteres.
           </small>
+          <small *ngIf="cpf?.errors?.['cpfNotValid']">
+            Campo CPF tem que ser valido
+          </small>
           <small *ngIf="cpf?.errors?.['cpf']">
             Campo ter que ser name valido.
           </small>
@@ -102,6 +105,53 @@
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <button class="btn" (click)="addAdress()">Add</button>
+    </div>
+  </div>
+
+  <ng-container formArrayName="addresses">
+    <ng-container *ngFor="let addressForm of addresses.controls; let i = index">
+      <div class="row" [formGroupName]="i">
+        <div class="col-sm-12">
+          <div class="col-sm-9">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="form-group">
+                <label>Descricao: </label>
+                <input type="text" formControlName="description" required />
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+              <div class="form-group">
+                <label>Numero: </label>
+                <input type="text" formControlName="number" required />
+              </div>
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>Cidade: </label>
+                <input type="text" formControlName="city" required />
+              </div>
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>Estado: </label>
+                <input type="text" formControlName="state" required />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="col-sm-12">
+              <button class="btn" (click)="deleteAdress(i)">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
 
   <div class="form-action">
     <button class="btn" [disabled]="!formGroup.valid" type="submit">

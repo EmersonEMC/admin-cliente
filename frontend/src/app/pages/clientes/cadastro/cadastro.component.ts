@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { cpfValidator } from 'src/app/shared/components/form/forms-validations';
 
 import { ClientesService } from '../clientes.service';
+import { Address } from '../entities/addess.entity';
 import { Cliente } from '../entities/cliente.entity';
 import { NavigationService } from './../../../shared/services/navigation.service';
 
@@ -31,14 +33,23 @@ export class CadastroComponent implements OnInit {
     this.formGroup = new FormGroup({
       name: new FormControl('', [Validators.required]),
       birthday: new FormControl('', [Validators.required]),
-      cpf: new FormControl('', [Validators.required, Validators.minLength(11)]),
+      cpf: new FormControl('', [
+        Validators.required,
+        Validators.minLength(11),
+        cpfValidator,
+      ]),
       rg: new FormControl('', [Validators.required, Validators.maxLength(9)]),
       phone: new FormControl('', [
         Validators.required,
         Validators.minLength(10),
       ]),
+      addresses: new FormArray([]),
     });
     this.loadOnEdit();
+  }
+
+  get addresses() {
+    return this.formGroup.get('addresses') as FormArray;
   }
 
   get name() {
@@ -61,10 +72,28 @@ export class CadastroComponent implements OnInit {
     return this.formGroup.get('phone');
   }
 
+  private createAddressFormGroup(): FormGroup {
+    return new FormGroup({
+      description: new FormControl('', [Validators.required]),
+      number: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+    });
+  }
+
+  addAdress() {
+    this.addresses.push(this.createAddressFormGroup());
+  }
+
+  deleteAdress(adressIndex: number) {
+    this.addresses.removeAt(adressIndex);
+  }
+
   private loadOnEdit(): void {
     if (this.idCliente > 0) {
       this._clientesService.getById(this.idCliente).subscribe(
         (value: Cliente) => {
+          this.createFormAddress(value.addresses);
           this.formSetValues(value);
         },
         () => {
@@ -77,6 +106,14 @@ export class CadastroComponent implements OnInit {
   private formSetValues(cliente: Cliente): void {
     if (cliente) {
       this.formGroup.patchValue(cliente);
+    }
+  }
+
+  private createFormAddress(addresses: Address[]): void {
+    if (Object.keys(addresses).length > 0) {
+      addresses.forEach(() => {
+        this.addresses.push(this.createAddressFormGroup());
+      });
     }
   }
 

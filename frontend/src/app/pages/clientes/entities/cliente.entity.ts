@@ -1,3 +1,5 @@
+import { Address } from './addess.entity';
+
 export class Cliente {
   id!: string;
   name!: string;
@@ -5,4 +7,5 @@ export class Cliente {
   cpf!: string;
   rg!: string;
   phone!: string;
+  addresses!: Address[];
 }
