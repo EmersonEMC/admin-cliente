@@ -55,6 +55,14 @@ export class CadastroComponent implements OnInit {
     return this.formGroup.get('addresses') as FormArray;
   }
 
+  getFormaArray(i: number, description: string) {
+    return this.getControls()[i].get(description);
+  }
+
+  getControls() {
+    return (<FormArray>this.formGroup.get('addresses')).controls;
+  }
+
   get name() {
     return this.formGroup.get('name');
   }
@@ -78,7 +86,10 @@ export class CadastroComponent implements OnInit {
   private createAddressFormGroup(): FormGroup {
     return new FormGroup({
       description: new FormControl('', [Validators.required]),
-      number: new FormControl('', [Validators.required]),
+      number: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(5),
+      ]),
       city: new FormControl('', [Validators.required]),
       state: new FormControl('', [Validators.required]),
     });
@@ -134,6 +145,10 @@ export class CadastroComponent implements OnInit {
           .subscribe();
       }
     }
+  }
+
+  trackByMethod(index: number): number {
+    return index;
   }
 
   back(): void {

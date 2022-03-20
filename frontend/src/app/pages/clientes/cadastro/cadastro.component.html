@@ -8,7 +8,7 @@
           *ngIf="name?.invalid && (name?.dirty || name?.touched)"
           class="alert"
         >
-          <small *ngIf="name?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="name?.errors?.['required']">Campo requerido . </small>
           <small *ngIf="name?.errors?.['name']">
             Campo ter que ser name valido.
           </small>
@@ -25,7 +25,7 @@
           class="alert"
         >
           <small *ngIf="birthday?.errors?.['required']"
-            >Campo e requiredo.
+            >Campo requerido .
           </small>
           <small *ngIf="birthday?.errors?.['birthday']">
             Campo ter que ser name valido.
@@ -45,7 +45,7 @@
           required
         />
         <div *ngIf="cpf?.invalid && (cpf?.dirty || cpf?.touched)" class="alert">
-          <small *ngIf="cpf?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="cpf?.errors?.['required']">Campo requerido . </small>
           <small *ngIf="cpf?.errors?.['minlength']">
             Campo deve conter no minimo
             {{ cpf?.errors?.minlength?.requiredLength }} caracteres.
@@ -71,7 +71,7 @@
           required
         />
         <div *ngIf="rg?.invalid && (rg?.dirty || rg?.touched)" class="alert">
-          <small *ngIf="rg?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="rg?.errors?.['required']">Campo requerido . </small>
           <small *ngIf="rg?.errors?.['rg']">
             Campo ter que ser name valido.
           </small>
@@ -93,7 +93,7 @@
           *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)"
           class="alert"
         >
-          <small *ngIf="phone?.errors?.['required']">Campo e requiredo. </small>
+          <small *ngIf="phone?.errors?.['required']">Campo requerido . </small>
           <small *ngIf="phone?.errors?.['minlength']">
             Campo deve conter no minimo
             {{ phone?.errors?.minlength?.requiredLength }} caracteres.
@@ -124,7 +124,13 @@
   <hr />
 
   <ng-container formArrayName="addresses">
-    <ng-container *ngFor="let addressForm of addresses.controls; let i = index">
+    <ng-container
+      *ngFor="
+        let addressForm of addresses.controls;
+        let i = index;
+        trackBy: trackByMethod
+      "
+    >
       <div class="row" [formGroupName]="i">
         <div class="col-sm-12 col-md-12 col-lg-12">
           <div class="form-group">
@@ -137,24 +143,78 @@
               <div class="form-group">
                 <label>Descricao: </label>
                 <input type="text" formControlName="description" required />
+                <div
+                  *ngIf="
+                    getFormaArray(i, 'description')?.invalid &&
+                    (getFormaArray(i, 'description')?.dirty ||
+                      getFormaArray(i, 'description')?.touched)
+                  "
+                  class="alert"
+                >
+                  <small
+                    *ngIf="getFormaArray(i, 'description')?.errors?.['required']"
+                    >Campo requerido .
+                  </small>
+                </div>
               </div>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-2">
               <div class="form-group">
                 <label>Numero: </label>
                 <input type="text" formControlName="number" required />
+                <div
+                  *ngIf="
+                    getFormaArray(i, 'number')?.invalid &&
+                    (getFormaArray(i, 'number')?.dirty ||
+                      getFormaArray(i, 'number')?.touched)
+                  "
+                  class="alert"
+                >
+                  <small
+                    *ngIf="getFormaArray(i, 'number')?.errors?.['required']"
+                    >Campo requerido .
+                  </small>
+                  <small
+                    *ngIf="getFormaArray(i, 'number')?.errors?.['maxlength']"
+                    >Campo deve conter maximo 5 caracteres.
+                  </small>
+                </div>
               </div>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-4">
               <div class="form-group">
                 <label>Cidade: </label>
                 <input type="text" formControlName="city" required />
+                <div
+                  *ngIf="
+                    getFormaArray(i, 'city')?.invalid &&
+                    (getFormaArray(i, 'city')?.dirty ||
+                      getFormaArray(i, 'city')?.touched)
+                  "
+                  class="alert"
+                >
+                  <small *ngIf="getFormaArray(i, 'city')?.errors?.['required']"
+                    >Campo requerido .
+                  </small>
+                </div>
               </div>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-4">
               <div class="form-group">
                 <label>Estado: </label>
                 <input type="text" formControlName="state" required />
+                <div
+                  *ngIf="
+                    getFormaArray(i, 'state')?.invalid &&
+                    (getFormaArray(i, 'state')?.dirty ||
+                      getFormaArray(i, 'state')?.touched)
+                  "
+                  class="alert"
+                >
+                  <small *ngIf="getFormaArray(i, 'state')?.errors?.['required']"
+                    >Campo requerido .
+                  </small>
+                </div>
               </div>
             </div>
           </div>
