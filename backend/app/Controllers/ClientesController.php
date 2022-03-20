@@ -15,13 +15,21 @@ class ClientesController extends BaseController
         $clients = new Clients();
 
         $data = $clients->getAllClients();
-        $response = $this->getResponse($data);
+        $response = $this->getResponsePaginate($data, 'clients');
         echo $response;
     }
 
-    public function getOne($id)
+    public function search($url, $start, $lenght, $order)
     {
+        $clients = new Clients();
 
+        $data = $clients->getAllClientsPaginate($start, $lenght, $order);
+        $response = $this->getResponsePaginate($data, 'clients');
+        echo $response;
+    }
+
+    public function getOne($url, $id)
+    {
         $clients = new Clients();
 
         $data = $clients->getOneClient($id);
@@ -32,114 +40,62 @@ class ClientesController extends BaseController
 
     public function create()
     {
-
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-        $clients = new Clients();
-        $clients->setName($input['name']);
-        $clients->setBirthday($input['birthday']);
-        $clients->setCpf($input['cpf']);
-        $clients->setRg($input['rg']);
-        $clients->setPhone($input['phone']);
-        $clients->setUsers_id($input['users_id']);
 
-        $listAddress = array_filter($input, function ($k) {
-            return strpos($k, '__') !== false;
-        }, ARRAY_FILTER_USE_KEY);
+        $client = new Clients();
+        $client->setName($input['name']);
+        $client->setBirthday($input['birthday']);
+        $client->setCpf($input['cpf']);
+        $client->setRg($input['rg']);
+        $client->setPhone($input['phone']);
 
-        $address = new Address();
-        $address->setDescription($input['description']);
-        $address->setNumber($input['number']);
-        $address->setCity($input['city']);
-        $address->setState($input['state']);
-        $clients->setAddress($address);
-
-        $list = array();
-        $i = 0;
-        $j = 0;
-        foreach ($listAddress as $key => $value) {
-
-            if (substr($key, 0, strrpos($key, '__')) === 'description') {
-                array_push($list, array(substr($key, 0, strrpos($key, '__')) => $value));
-                if ($j > 0) {
-                    $i++;
-                }
-                $j++;
-            } else {
-                $index = substr($key, 0, strrpos($key, '__'));
-                $list[$i][$index] = $value;
-            }
-        }
-
-        foreach ($list as $key => $value) {
+        foreach ($input['addresses'] as $value) {
             $address = new Address();
             $address->setDescription($value['description']);
             $address->setNumber($value['number']);
             $address->setCity($value['city']);
             $address->setState($value['state']);
-            $clients->setAddress($address);
+            $client->setAddress($address);
         }
 
-        $data = $clients->saveClient($clients);
+        $data = $client->saveClient($client);
         $response = $this->createResponse($data);
+
         echo $response;
     }
 
-    public function update($id)
+    public function update($url, $id)
     {
-        $_PUT = array();
-        parse_str(file_get_contents('php://input'), $_PUT);
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        $listAddress = array_filter($_PUT, function ($k) {
-            return strpos($k, '__') !== false;
-        }, ARRAY_FILTER_USE_KEY);
+        $client = new Clients();
+        $client->setId($id);
+        $client->setName($input['name']);
+        $client->setBirthday($input['birthday']);
+        $client->setCpf($input['cpf']);
+        $client->setRg($input['rg']);
+        $client->setPhone($input['phone']);
 
-
-        $list = array();
-        $i = 0;
-        $j = 0;
-        foreach ($listAddress as $key => $value) {
-
-            if (substr($key, 0, strrpos($key, '__')) === 'id') {
-                array_push($list, array(substr($key, 0, strrpos($key, '__')) => $value));
-                if ($j > 0) {
-                    $i++;
-                }
-                $j++;
-            } else {
-                $index = substr($key, 0, strrpos($key, '__'));
-                $list[$i][$index] = $value;
-            }
-        }
-
-        $clients = new Clients();
-        $clients->setId($id);
-        $clients->setName($_PUT['name']);
-        $clients->setBirthday($_PUT['birthday']);
-        $clients->setCpf($_PUT['cpf']);
-        $clients->setRg($_PUT['rg']);
-        $clients->setPhone($_PUT['phone']);
-
-        foreach ($list as $key => $value) {
+        foreach ($input['addresses'] as $value) {
             $address = new Address();
-            $address->setId($value['id']);
             $address->setDescription($value['description']);
             $address->setNumber($value['number']);
             $address->setCity($value['city']);
             $address->setState($value['state']);
-            $clients->setAddress($address);
+            $client->setAddress($address);
         }
-
-        $data = $clients->updateClient($clients);
+        
+        $data = $client->updateClient($client);
         $response = $this->updateResponse($data);
         echo $response;
     }
 
-    public function delete($id)
+    public function delete($url, $id)
     {
         $clients = new Clients();
-        $clients->deleteClient($id);
+        $data = $clients->deleteClient($id);
 
-        $response = $this->deleteResponse();
+        $response = $this->deleteResponse($data);
         echo $response;
     }
 }

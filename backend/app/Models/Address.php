@@ -12,7 +12,8 @@ class Address
     private $clients_id;
 
     public function __construct()
-    { }
+    {
+    }
 
     public function getId()
     {
@@ -106,21 +107,15 @@ class Address
         }
     }
 
-    public function updateListAddress($Adresses)
+    public function deleteListAddress($clients_id)
     {
         try {
             $database = new \App\DB\Connection();
             $db = $database->openConnection();
 
-            $stm = $db->prepare("UPDATE `address` SET `description`=:description,`number`=:number,`city`=:city,`state`=:state WHERE `id`=:id");
-            foreach ($Adresses as $address) {
-                $stm->bindParam(':description', $address->getDescription(), \PDO::PARAM_STR);
-                $stm->bindParam(':number', $address->getNumber(), \PDO::PARAM_STR);
-                $stm->bindParam(':city', $address->getCity(), \PDO::PARAM_STR);
-                $stm->bindParam(':state', $address->getState(), \PDO::PARAM_STR);
-                $stm->bindParam(':id', $address->getId(), \PDO::PARAM_INT);
-                $stm->execute();
-            }
+            $stm = $db->prepare("DELETE FROM `address` WHERE `clients_id`=:clients_id");
+            $stm->bindParam(':clients_id', $clients_id, \PDO::PARAM_INT);
+            $stm->execute();
 
             $count = $stm->rowCount();
 
@@ -136,6 +131,14 @@ class Address
             $stm = null;
             $database->closeConnection();
         }
+    }
+
+    public function updateListAddress($adresses, $clients_id)
+    {
+        $this->deleteListAddress($clients_id);
+
+       return $this->saveListAddress($adresses, $clients_id);
+
     }
 
     public function getAllAddress($client_id)

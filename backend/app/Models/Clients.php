@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Address;
+use InvalidArgumentException;
 
 class Clients extends Address
 {
@@ -13,7 +14,6 @@ class Clients extends Address
     private $cpf;
     private $rg;
     private $phone;
-    private $users_id;
     private $created_at;
     private $updated_at;
 
@@ -84,16 +84,6 @@ class Clients extends Address
         $this->phone = $phone;
     }
 
-    public function getUsers_id()
-    {
-        return $this->users_id;
-    }
-
-    public function setUsers_id($users_id)
-    {
-        $this->users_id = $users_id;
-    }
-
     public function getCreated_at()
     {
         return $this->created_at;
@@ -151,6 +141,42 @@ class Clients extends Address
         }
     }
 
+    public function getAllClientsPaginate($start, $length, $order)
+    {
+        try {
+            $database = new \App\DB\Connection();
+            $db = $database->openConnection();
+
+            $column = $this->whiteList($order[0], ["id", "name", "birthday", "cpf", "cpf", "phone"], "Invalid field name");
+            $dir = $this->whiteList(strtoupper($order[1]), ["ASC", "DESC"], "Invalid ORDER BY direction");
+
+            $stm = $db->prepare("SELECT * FROM clients ORDER BY " . $column . " " . $dir . " LIMIT ?, ?");
+
+            $stm->bindParam(1, $start, \PDO::PARAM_STR);
+            $stm->bindParam(2, $length, \PDO::PARAM_STR);
+
+            $stm->execute();
+
+            $stmCount = $db->prepare("SELECT COUNT(*) FROM clients");
+            $stmCount->execute();
+
+            $count = $stmCount->fetch(\PDO::FETCH_NUM);
+
+            if ($count  > 0) {
+                $clients = $stm->fetchAll();
+                return compact("clients", "count");
+            }
+
+            return null;
+        } catch (\PDOException $x) {
+            var_dump($x);
+            die("Internal Server Error");
+        } finally {
+            $stm = null;
+            $database->closeConnection();
+        }
+    }
+
     public function getAllClients()
     {
         try {
@@ -168,7 +194,7 @@ class Clients extends Address
                     $clients[$key]['addresses'] = $addresses;
                 }
 
-                return $clients;
+                return compact("clients", "count");
             }
 
             return null;
@@ -183,6 +209,10 @@ class Clients extends Address
     public function saveClient($client)
     {
 
+        if (empty($client->getAddress())) {
+            return false;
+        }
+
         try {
             $database = new \App\DB\Connection();
             $db = $database->openConnection();
@@ -190,14 +220,13 @@ class Clients extends Address
             $now = new \DateTime('NOW');
             $now = $now->format("Y-m-d H:i:s");
 
-            $stm = $db->prepare("INSERT INTO `clients`(`name`, `birthday`, `cpf`, `rg`, `phone`, `users_id`, `created_at`) VALUES (?,?,?,?,?,?,?)");
+            $stm = $db->prepare("INSERT INTO `clients`(`name`, `birthday`, `cpf`, `rg`, `phone`, `created_at`) VALUES (?,?,?,?,?,?)");
             $stm->bindParam(1, $client->getName(), \PDO::PARAM_STR);
             $stm->bindParam(2, $client->getBirthday(), \PDO::PARAM_STR);
             $stm->bindParam(3, $client->getCpf(), \PDO::PARAM_STR);
             $stm->bindParam(4, $client->getRg(), \PDO::PARAM_STR);
             $stm->bindParam(5, $client->getPhone(), \PDO::PARAM_STR);
-            $stm->bindParam(6, $client->getUsers_id(), \PDO::PARAM_INT);
-            $stm->bindParam(7, $now);
+            $stm->bindParam(6, $now);
 
             $stm->execute();
 
@@ -211,7 +240,6 @@ class Clients extends Address
 
             return false;
         } catch (\PDOException $x) {
-            var_dump($x);
             die("Internal Server Error");
         } finally {
             $stm = null;
@@ -221,6 +249,10 @@ class Clients extends Address
 
     public function updateClient($client)
     {
+        if (empty($client->getAddress())) {
+            return false;
+        }
+
         try {
             $database = new \App\DB\Connection();
             $db = $database->openConnection();
@@ -241,10 +273,9 @@ class Clients extends Address
             $count = $stm->rowCount();
 
             if ($count  > 0) {
-                if (parent::updateListAddress($client->getAddress())) {
-                    return true;
-                }
+                if (parent::updateListAddress($client->getAddress(), $client->getId())) {
                 return true;
+                }
             }
 
             return false;
@@ -281,6 +312,19 @@ class Clients extends Address
         } finally {
             $stm = null;
             $database->closeConnection();
+        }
+    }
+
+    function whiteList(&$value, $allowed, $message)
+    {
+        if ($value === null) {
+            return $allowed[0];
+        }
+        $key = array_search($value, $allowed, true);
+        if ($key === false) {
+            throw new InvalidArgumentException($message);
+        } else {
+            return $value;
         }
     }
 }

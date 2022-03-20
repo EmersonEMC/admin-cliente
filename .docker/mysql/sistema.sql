@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `sistema`.`clients` (
 CREATE TABLE IF NOT EXISTS `sistema`.`address` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `description` VARCHAR(255) NOT NULL,
-    `number` INT(11) NOT NULL,
+    `number` VARCHAR(5) NOT NULL,
     `city` VARCHAR(255) NOT NULL,
     `state` VARCHAR(255) NOT NULL,
     `clients_id` INT(11) NOT NULL,

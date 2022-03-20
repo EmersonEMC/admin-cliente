@@ -2,26 +2,30 @@
 
 namespace App\Controllers;
 
+use App\Helpers\Helper;
+use App\Helpers\JsonFormatter;
 use \App\Models\Users;
 
-class LoginController
+class LoginController extends JsonFormatter
 {
 
     public function login()
     {
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+
         $userLogin = new Users();
-        $isLogin = $userLogin->login($_POST['email'], $_POST['password']);
-        // if ($isLogin) {
-        //     header('Location: /');
-        // } else {
-        //     header('Location: /login?error=Login e/ou senha incorretos');
-        // }
-    }
+        $isLogin = $userLogin->login($input['email'], $input['password']);
 
-    public function logout()
-    {
-        $_SESSION = array();
-        session_destroy();
+        if ($isLogin === null) {
+            echo $this->toJSON401('Email e/ou senha incorretos!');
+            exit();
+        }
 
+        $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+        $payload = array('sub' => $isLogin->getId(), 'name' => $isLogin->getName(), 'email' => $isLogin->getEmail(), 'exp' => (time() + 60));
+
+        $jwt = Helper::generateJwt($headers, $payload, JWT_SECRET);
+        $payload['token'] = $jwt;
+        echo $this->toJSON200(null, $payload);
     }
 }

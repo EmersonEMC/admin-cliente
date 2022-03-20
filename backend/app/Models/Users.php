@@ -88,14 +88,11 @@ class Users
 
             if ($users) {
                 if (md5($password) === $users->password) {
-                    $_SESSION['logged_in'] = TRUE;
-                    $_SESSION['user_id'] = $users->id;
-                    $_SESSION['user_name'] = $users->name;
-                    return true;
+                    return $users;
                 }
             }
 
-            return false;
+            return null;
         } catch (\PDOException $x) {
             die("Internal Server Error");
         } finally {

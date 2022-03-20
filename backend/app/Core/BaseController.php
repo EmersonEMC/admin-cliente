@@ -2,33 +2,49 @@
 
 namespace  App\Core;
 
-class BaseController
+use App\Helpers\JsonFormatter;
+
+class BaseController extends JsonFormatter
 {
-    protected function getResponse($data)
+
+    protected function getResponsePaginate($data, $key)
     {
-        return $this->toJSON(null, $data);
+        return $this->toJSONPaginate(null, $data, $key);
+    }
+
+    protected function getResponse($data, $message = null)
+    {
+        if ($data === null) {
+            $message = "Não foi possivel encontrar o(s) dado(s) solicitado(s)";
+        }
+
+        return $this->toJSON($message, $data);
     }
 
     protected function createResponse($data)
     {
-        return $this->toJSON("Criado com sucesso!", $data);
+        if ($data) {
+            return $this->toJSON200("Criado com sucesso!", $data);
+        } else {
+            return $this->toJSON400("Não foi possivel criar", $data);
+        }
     }
 
     protected function updateResponse($data)
     {
-        return $this->toJSON("Alterado com sucesso!", $data);
+        if ($data) {
+            return $this->toJSON200("Alterado com sucesso!", $data);
+        } else {
+            return $this->toJSON400("Não foi possivel alteracao", $data);
+        }
     }
 
-    protected function deleteResponse()
+    protected function deleteResponse($data)
     {
-        return $this->toJSON("Removido com sucesso!");
-    }
-
-    protected function toJSON($message = null, $data = null)
-    {
-        $response['message'] = $message;
-        $response['data'] = $data;
-
-        return json_encode($response);
+        if ($data) {
+            return $this->toJSON200("Removido com sucesso!", $data);
+        } else {
+            return $this->toJSON400("Não foi possivel remover", $data);
+        }
     }
 }

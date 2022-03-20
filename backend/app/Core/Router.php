@@ -181,26 +181,23 @@ class Router
     }
 
 
+
     private function handle($routes, $quitAfterRun = false)
     {
 
         $numHandled = 0;
-
         $uri = $this->getCurrentUri();
+
 
         foreach ($routes as $route) {
 
             $route['pattern'] = preg_replace('/\/{(.*?)}/', '/(.*?)', $route['pattern']);
-
             if (preg_match_all('#^' . $route['pattern'] . '$#', $uri, $matches, PREG_OFFSET_CAPTURE)) {
-
-                $matches = array_slice($matches, 1);
-
                 $params = array_map(function ($match, $index) use ($matches) {
-
                     if (isset($matches[$index + 1]) && isset($matches[$index + 1][0]) && is_array($matches[$index + 1][0])) {
                         return trim(substr($match[0][0], 0, $matches[$index + 1][0][1] - $match[0][1]), '/');
                     }
+
                     return isset($match[0][0]) ? trim($match[0][0], '/') : null;
                 }, $matches, array_keys($matches));
 
@@ -218,10 +215,11 @@ class Router
 
     private function invoke($fn, $params = [])
     {
+        $params = $this->queryParams($params);
+
         if (is_callable($fn)) {
             call_user_func_array($fn, $params);
         } elseif (stripos($fn, '@') !== false) {
-
             list($controller, $method) = explode('@', $fn);
 
             if ($this->getNamespace() !== '') {
@@ -238,16 +236,45 @@ class Router
         }
     }
 
+    private function queryParams($params)
+    {
+        if (isset($params[1])) {
+            if (preg_match_all('[\?]', $params[1])) {
+                $query_params = explode("?", $params[1]);
+                if (preg_match_all('[\&]', $query_params[1])) {
+                    $querys = explode("&", $query_params[1]);
+                    foreach ($querys as $key => $query) {
+                        if (preg_match_all('[\=]', $query)) {
+                            $equals = explode("=", $query);
+                            $params[$key + 1] = $equals[1];
+                        }
+                    }
+                }
+            }
+        }
+
+        $params = $this->queryParamsContainsObject($params);
+
+        return $params;
+    }
+
+    private function queryParamsContainsObject($params)
+    {
+
+        foreach ($params as $key => $param) {
+            if (preg_match('[\{]', $param) && preg_match('[\}]', $param)) {
+                $results = array_values(json_decode(preg_replace('/^[^{]*/', '', $param), true));
+                $params[$key] = $results;
+            }
+        }
+
+        return $params;
+    }
 
     public function getCurrentUri()
     {
 
         $uri = substr(rawurldecode($_SERVER['REQUEST_URI']), strlen($this->getBasePath()));
-
-        if (strstr($uri, '?')) {
-            $uri = substr($uri, 0, strpos($uri, '?'));
-        }
-
         return '/' . trim($uri, '/');
     }
 
