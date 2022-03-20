@@ -2,10 +2,15 @@
 
 namespace  App\Core;
 
-use App\Helpers\JsonFormatter;
+use \App\Helpers\JsonFormatter;
 
 class BaseController extends JsonFormatter
 {
+
+    protected function getRequestData()
+    {
+        return (array) json_decode(file_get_contents('php://input'), TRUE);
+    }
 
     protected function getResponsePaginate($data, $key)
     {

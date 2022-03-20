@@ -7,7 +7,10 @@ class ErrorController
 
     public function notFound()
     {
-        $data['error'] = 'Page Not Found';
+        header('HTTP/1.0 404 Not Found');
+        $response['message'] = 'Not Found';
+        $response['data'] = null;
 
+        echo json_encode($response);
     }
 }

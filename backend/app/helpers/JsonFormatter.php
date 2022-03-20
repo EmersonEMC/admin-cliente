@@ -15,39 +15,35 @@ class JsonFormatter
         return json_encode($response);
     }
 
-    protected function toJSON($message = null, $data = null)
+    protected function toDataJson($message = null, $data = null)
     {
-        header('HTTP/1.0 200 OK');
         $response['message'] = $message;
         $response['data'] = $data;
 
         return json_encode($response);
     }
 
-   protected function toJSON200($message = null, $data = null)
+    protected function toJSON($message = null, $data = null)
     {
         header('HTTP/1.0 200 OK');
-        $response['message'] = $message;
-        $response['data'] = $data;
+        return $this->toDataJson($message, $data);
+    }
 
-        return json_encode($response);
+    protected function toJSON200($message = null, $data = null)
+    {
+        header('HTTP/1.0 200 OK');
+        return $this->toDataJson($message, $data);
     }
 
     function toJSON401($message = null, $data = null)
     {
         header('HTTP/1.0 401 Unauthorized');
-        $response['message'] = $message;
-        $response['data'] = $data;
-
-        return json_encode($response);
+        return $this->toDataJson($message, $data);
     }
 
     function toJSON400($message = null, $data = null)
     {
         header('HTTP/1.0 400 Bad Request');
-        $response['message'] = $message;
-        $response['data'] = $data;
-
-        return json_encode($response);
+        return $this->toDataJson($message, $data);
     }
 }

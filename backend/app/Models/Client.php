@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Address;
-use InvalidArgumentException;
+use \App\Models\Address;
+use \InvalidArgumentException;
+use \Resource;
 
-class Clients extends Address
+class Client  extends Address implements Resource
 {
 
     private $id;
@@ -114,7 +115,7 @@ class Clients extends Address
         array_push($this->address, $address);
     }
 
-    public function getOneClient($id)
+    public function getOne($id)
     {
         try {
             $database = new \App\DB\Connection();
@@ -141,7 +142,7 @@ class Clients extends Address
         }
     }
 
-    public function getAllClientsPaginate($start, $length, $order)
+    public function getAllPaginate($start, $length, $order)
     {
         try {
             $database = new \App\DB\Connection();
@@ -177,7 +178,7 @@ class Clients extends Address
         }
     }
 
-    public function getAllClients()
+    public function getAll()
     {
         try {
             $database = new \App\DB\Connection();
@@ -206,7 +207,7 @@ class Clients extends Address
         }
     }
 
-    public function saveClient($client)
+    public function save($client)
     {
 
         if (empty($client->getAddress())) {
@@ -247,7 +248,7 @@ class Clients extends Address
         }
     }
 
-    public function updateClient($client)
+    public function update($client)
     {
         if (empty($client->getAddress())) {
             return false;
@@ -274,7 +275,7 @@ class Clients extends Address
 
             if ($count  > 0) {
                 if (parent::updateListAddress($client->getAddress(), $client->getId())) {
-                return true;
+                    return true;
                 }
             }
 
@@ -288,7 +289,7 @@ class Clients extends Address
         }
     }
 
-    public function deleteClient($id)
+    public function delete($id)
     {
         parent::deleteAddress($id);
 

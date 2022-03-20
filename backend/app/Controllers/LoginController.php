@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Helpers\Helper;
 use App\Helpers\JsonFormatter;
-use \App\Models\Users;
+use \App\Models\User;
 
 class LoginController extends JsonFormatter
 {
@@ -13,7 +13,7 @@ class LoginController extends JsonFormatter
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        $userLogin = new Users();
+        $userLogin = new User();
         $isLogin = $userLogin->login($input['email'], $input['password']);
 
         if ($isLogin === null) {

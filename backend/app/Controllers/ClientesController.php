@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Core\BaseController;
-use \App\Models\Clients;
+use \App\Core\BaseController;
+use \App\Helpers\Validator;
+use \App\Models\Client;
 use \App\Models\Address;
 
 class ClientesController extends BaseController
@@ -12,27 +13,27 @@ class ClientesController extends BaseController
     public function getAll()
     {
 
-        $clients = new Clients();
+        $clients = new Client();
 
-        $data = $clients->getAllClients();
+        $data = $clients->getAll();
         $response = $this->getResponsePaginate($data, 'clients');
         echo $response;
     }
 
     public function search($url, $start, $lenght, $order)
     {
-        $clients = new Clients();
+        $clients = new Client();
 
-        $data = $clients->getAllClientsPaginate($start, $lenght, $order);
+        $data = $clients->getAllPaginate($start, $lenght, $order);
         $response = $this->getResponsePaginate($data, 'clients');
         echo $response;
     }
 
     public function getOne($url, $id)
     {
-        $clients = new Clients();
+        $clients = new Client();
 
-        $data = $clients->getOneClient($id);
+        $data = $clients->getOne($id);
         $response = $this->getResponse($data);
         echo $response;
     }
@@ -40,9 +41,12 @@ class ClientesController extends BaseController
 
     public function create()
     {
-        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $input = $this->getRequestData();
 
-        $client = new Clients();
+        $isValidFields = ['name', 'birthday', 'cpf', 'rg', 'phone'];
+        Validator::validationRequired($isValidFields, $input);
+
+        $client = new Client();
         $client->setName($input['name']);
         $client->setBirthday($input['birthday']);
         $client->setCpf($input['cpf']);
@@ -58,7 +62,7 @@ class ClientesController extends BaseController
             $client->setAddress($address);
         }
 
-        $data = $client->saveClient($client);
+        $data = $client->save($client);
         $response = $this->createResponse($data);
 
         echo $response;
@@ -66,9 +70,12 @@ class ClientesController extends BaseController
 
     public function update($url, $id)
     {
-        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $input = $this->getRequestData();
 
-        $client = new Clients();
+        $isValidFields = ['name', 'birthday', 'cpf', 'rg', 'phone'];
+        Validator::validationRequired($isValidFields, $input);
+
+        $client = new Client();
         $client->setId($id);
         $client->setName($input['name']);
         $client->setBirthday($input['birthday']);
@@ -84,16 +91,16 @@ class ClientesController extends BaseController
             $address->setState($value['state']);
             $client->setAddress($address);
         }
-        
-        $data = $client->updateClient($client);
+
+        $data = $client->update($client);
         $response = $this->updateResponse($data);
         echo $response;
     }
 
     public function delete($url, $id)
     {
-        $clients = new Clients();
-        $data = $clients->deleteClient($id);
+        $clients = new Client();
+        $data = $clients->delete($id);
 
         $response = $this->deleteResponse($data);
         echo $response;
