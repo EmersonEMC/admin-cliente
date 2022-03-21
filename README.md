@@ -12,9 +12,6 @@ Backend PHP
 - Ter instalado docker e docker-compose
 #### Run
 
-- IMPORTANTE
-**Na pasta backend, copiar o arquivo .env.example para .env**
-
 Para iniciar o ambiente:
 
 - Na raiz do projeto, executar.
